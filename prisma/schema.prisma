@@ -1,0 +1,24 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Todo {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  todoTitle String   @db.VarChar(255)
+  category  String   @db.VarChar(255)
+  checked   Boolean  @default(false)
+  cost      String?  @db.VarChar(255)
+  vendor    String?  @db.VarChar(255)
+  link      String?  @db.VarChar(255)
+  note      String?  @db.Text()
+}
