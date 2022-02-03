@@ -114,7 +114,7 @@ const TodoContainer: React.FC<{}> = () => {
         )}
       />
       <div className={todoStyles.todosMain}>
-        <div className={todoStyles.todosContainer}>
+        <div className={`${todoStyles.todosContainer} ${todos.some((x) => x.checked) && todoStyles.todosContainerReduced}`}>
           {displayedTodos.map((todo, index) => (
             <Todo
               key={index}
