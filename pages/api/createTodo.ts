@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { createTodo } from "@controllers";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
+  console.log(req.body)
   const response = await createTodo(
     req.body.newTitle,
     req.body.categoryVal,

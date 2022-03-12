@@ -1,5 +1,7 @@
-import React from "react";
-import todoStyles from "@Styles/Todo.module.scss";
+import React from 'react';
+import todoStyles from '@Styles/Todo.module.scss';
+import { Typography, Link } from '@mui/material';
+import { DisplayTodoStyles } from './DisplayTodo.mui';
 
 interface DisplayedProductProps {
   todoTitle: string;
@@ -7,18 +9,16 @@ interface DisplayedProductProps {
 }
 const DisplayedProduct: React.FC<DisplayedProductProps> = (props) => {
   return props.link ? (
-    <a
-      className={`${todoStyles.todoTitle} ${todoStyles.todoTitleLink}`}
+    <Link
+      sx={DisplayTodoStyles.todoTitle}
       href={props.link}
       target="_blank"
       rel="noreferrer"
     >
       {props.todoTitle}
-    </a>
+    </Link>
   ) : (
-    <p className={`${todoStyles.todoTitle}`}>
-      {props.todoTitle}
-    </p>
+    <Typography sx={DisplayTodoStyles.todoTitle}>{props.todoTitle}</Typography>
   );
 };
 

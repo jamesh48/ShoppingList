@@ -1,11 +1,11 @@
-import React from "react";
-import todoStyles from "@Styles/Todo.module.scss";
-import { SingleTodo } from "../TodoTypes";
-import EditingTodoInput from "./EditingTodoInput";
+import React from 'react';
+import todoStyles from '@Styles/Todo.module.scss';
+import { SingleTodo } from '../TodoTypes';
+import EditingTodoInput from './EditingTodoInput';
 interface EditingTodoProps {
   handleEdit: () => void;
   handleDelete: () => void;
-  handleClick: (e: any) => void;
+  handleEditingSubmit: (e: React.MouseEvent<HTMLFormElement>) => void;
   handleEditingCategoryVal: (e: any) => void;
   handleEditingTodoTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleEditingCost: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -23,19 +23,22 @@ const EditingTodo: React.FC<EditingTodoProps> = (props) => {
   return (
     <div
       className={todoStyles.todoContainer}
-      style={{ display: "flex", justifyContent: "center" }}
+      style={{ display: 'flex', justifyContent: 'center' }}
     >
       <a
         onClick={props.handleEdit}
         className={`${todoStyles.todoEditLink} ${
-          props.currCategory === "All" && todoStyles.todoEditLinkEditing
+          props.currCategory === 'All' && todoStyles.todoEditLinkEditing
         }`}
       >
         Cancel
       </a>
-      <form className={todoStyles.todoTitleContainer} onSubmit={props.handleClick}>
+      <form
+        className={todoStyles.todoTitleContainer}
+        onSubmit={props.handleEditingSubmit}
+      >
         <div className={todoStyles.costAndVendor}>
-          {props.currCategory === "All" && (
+          {props.currCategory === 'All' && (
             <EditingTodoInput
               editingVal={props.editingCategoryVal}
               handleChange={props.handleEditingCategoryVal}

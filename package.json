@@ -9,11 +9,15 @@
     "db:test": "npx ts-node prisma/index.ts"
   },
   "dependencies": {
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.5.0",
     "@prisma/client": "^3.8.1",
     "axios": "^0.25.0",
     "next": "12.0.9",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-query": "^3.34.16",
     "sass": "^1.49.0"
   },
   "devDependencies": {

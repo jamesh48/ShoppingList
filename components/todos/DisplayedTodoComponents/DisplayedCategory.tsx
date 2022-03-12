@@ -1,13 +1,17 @@
-import React from "react";
-import todoStyles from "@Styles/Todo.module.scss";
+import React from 'react';
+import todoStyles from '@Styles/Todo.module.scss';
+import { Typography } from '@mui/material';
+import { DisplayTodoStyles } from './DisplayTodo.mui';
 
 interface DisplayedCategoryProps {
   currCategory: string;
   category: string;
 }
-const DisplayedCategory: React.FC<DisplayedCategoryProps> = (props) => {
-  return props.currCategory === "All" ? (
-    <h5 className={todoStyles.todoTitle}>{props.category}:</h5>
+const DisplayedCategory = (props: DisplayedCategoryProps): JSX.Element | null => {
+  return props.currCategory === 'All' ? (
+    <Typography
+      sx={DisplayTodoStyles.todoTitle}
+    >{`${props.category}:`}</Typography>
   ) : null;
 };
 

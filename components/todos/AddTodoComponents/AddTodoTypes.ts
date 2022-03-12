@@ -1,12 +1,19 @@
 export interface AddTodoProps {
-  addNewTodoCallback: (
-    newTitle: string,
-    categoryVal: string,
-    cost: string,
-    vendorVal: string,
-    linkVal: string,
-    noteVal: string
-  ) => Promise<void>;
+  addNewTodoCallback: ({
+    newTodoVal,
+    categoryVal,
+    costVal,
+    vendorVal,
+    linkVal,
+    noteVal,
+  }: {
+    newTodoVal: string;
+    categoryVal: string;
+    costVal: string;
+    vendorVal: string;
+    linkVal: string;
+    noteVal: string;
+  }) => void;
   currCategory: string;
   categories: string[];
   vendors: string[];

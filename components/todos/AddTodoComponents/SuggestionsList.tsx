@@ -8,7 +8,7 @@ const SuggestionsList: React.FC<SuggestionsListProps> = (props) => {
         <ul className={todoStyles.suggestions}>
           {props.filteredSuggestions.map((suggestion, index) => {
             let className;
-            //           // Flag the active suggestion with a class
+            // Flag the active suggestion with a class
             if (index === props.activeSuggestion) {
               className = todoStyles.suggestionActive;
             }
@@ -33,34 +33,3 @@ const SuggestionsList: React.FC<SuggestionsListProps> = (props) => {
 };
 
 export default SuggestionsList;
-
-// let suggestionsListComponent;
-
-// if (showSuggestions && categoryVal) {
-//   if (filteredSuggestions.length) {
-//     suggestionsListComponent = (
-//       <ul className={todoStyles.suggestions}>
-//         {filteredSuggestions.map((suggestion, index) => {
-//           let className;
-
-//           // Flag the active suggestion with a class
-//           if (index === activeSuggestion) {
-//             className = todoStyles.suggestionActive;
-//           }
-
-//           return (
-//             <li className={className} key={suggestion} onClick={handleClick}>
-//               {suggestion}
-//             </li>
-//           );
-//         })}
-//       </ul>
-//     );
-//   } else {
-//     suggestionsListComponent = (
-//       <div className={todoStyles.noSuggestions} ref={noSuggestionsAvailable}>
-//         <em>No suggestions available.</em>
-//       </div>
-//     );
-//   }
-// }

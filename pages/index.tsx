@@ -5,7 +5,7 @@ import Head from "next/head";
 import TodoContainer from "../components/todos/TodoContainer";
 import styles from "../styles/Home.module.scss";
 
-const Home: NextPage = () => {
+const Home: NextPage = (): JSX.Element => {
   return (
     <div className={styles.container}>
       <Head>

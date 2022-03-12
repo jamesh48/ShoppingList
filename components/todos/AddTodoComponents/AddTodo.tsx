@@ -1,40 +1,43 @@
-import React from "react";
-import todoStyles from "../../../styles/Todo.module.scss";
-import { AddTodoProps } from "./AddTodoTypes";
-import CategoryInput from "./FormInputs/CategoryInput";
-import TodoInput from "./FormInputs/TodoInput";
-import CostInput from "./FormInputs/CostInput";
-import VendorInput from "./FormInputs/VendorInput";
-import LinkInput from "./FormInputs/LinkInput";
-import SuggestionsList from "./SuggestionsList";
+import React, { useEffect } from 'react';
+import todoStyles from '../../../styles/Todo.module.scss';
+import { AddTodoProps } from './AddTodoTypes';
+import CategoryInput from './FormInputs/CategoryInput';
+import TodoInput from './FormInputs/TodoInput';
+import CostInput from './FormInputs/CostInput';
+import VendorInput from './FormInputs/VendorInput';
+import LinkInput from './FormInputs/LinkInput';
+import SuggestionsList from './SuggestionsList';
 
-const AddTodo: React.FC<AddTodoProps> = (props) => {
-  const [newTodoVal, setNewTodoVal] = React.useState("");
-  const [categoryVal, setCategoryVal] = React.useState("");
-  const [noteVal, setNoteVal] = React.useState("");
-  const [costVal, setCostVal] = React.useState("");
-  const [vendorVal, setVendorVal] = React.useState("");
-  const [linkVal, setLinkVal] = React.useState("");
+const AddTodo = (props: AddTodoProps): JSX.Element => {
+  const [newTodoVal, setNewTodoVal] = React.useState('');
+  const [categoryVal, setCategoryVal] = React.useState('');
+  const [noteVal, setNoteVal] = React.useState('');
+  const [costVal, setCostVal] = React.useState('');
+  const [vendorVal, setVendorVal] = React.useState('');
+  const [linkVal, setLinkVal] = React.useState('');
 
   const noCategorySuggestionsAvailable = React.useRef(null);
   const noVendorSuggestionsAvailable = React.useRef(null);
   // Autocomplete- Category
-  const [activeCategorySuggestion, setActiveCategorySuggestion] = React.useState(0);
-  const [filteredCategorySuggestions, setFilteredCategorySuggestions] = React.useState([
-    ""
-  ]);
-  const [showCategorySuggestions, setShowCategorySuggestions] = React.useState(false);
+  const [activeCategorySuggestion, setActiveCategorySuggestion] =
+    React.useState(0);
+  const [filteredCategorySuggestions, setFilteredCategorySuggestions] =
+    React.useState(['']);
+  const [showCategorySuggestions, setShowCategorySuggestions] =
+    React.useState(false);
 
   // Autocomplete- Vendor
   const [activeVendorSuggestion, setActiveVendorSuggestion] = React.useState(0);
-  const [filteredVendorSuggestions, setFilteredVendorSuggestions] = React.useState([""]);
-  const [showVendorSuggestions, setShowVendorSuggestions] = React.useState(false);
+  const [filteredVendorSuggestions, setFilteredVendorSuggestions] =
+    React.useState(['']);
+  const [showVendorSuggestions, setShowVendorSuggestions] =
+    React.useState(false);
 
   React.useEffect(() => {
-    if (props.currCategory.trim() !== "All") {
+    if (props.currCategory.trim() !== 'All') {
       setCategoryVal(props.currCategory);
     } else {
-      setCategoryVal("");
+      setCategoryVal('');
     }
   }, [props.currCategory]);
 
@@ -66,7 +69,7 @@ const AddTodo: React.FC<AddTodoProps> = (props) => {
     setVendorVal(userInput);
   };
 
-  const handleCategoryChange = (e: any) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const userInput = e.currentTarget.value;
     const filteredSuggestions = props.categories.filter(
       (category) => category.toLowerCase().indexOf(userInput.toLowerCase()) > -1
@@ -78,7 +81,7 @@ const AddTodo: React.FC<AddTodoProps> = (props) => {
     setCategoryVal(userInput);
   };
 
-  const handleVendorKeyDown = (e: any) => {
+  const handleVendorKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.keyCode === 13) {
       setActiveVendorSuggestion(0);
       setShowVendorSuggestions(false);
@@ -93,10 +96,12 @@ const AddTodo: React.FC<AddTodoProps> = (props) => {
         return;
       }
       setActiveVendorSuggestion((x) => x + 1);
+    } else if (e.keyCode === 9) {
+      setVendorVal(filteredVendorSuggestions[activeVendorSuggestion]);
     }
   };
 
-  const handleCategoryKeyDown = (e: any) => {
+  const handleCategoryKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.keyCode === 13) {
       setActiveCategorySuggestion(0);
       setShowCategorySuggestions(false);
@@ -111,6 +116,8 @@ const AddTodo: React.FC<AddTodoProps> = (props) => {
         return;
       }
       setActiveCategorySuggestion((x) => x + 1);
+    } else if (e.keyCode === 9) {
+      setCategoryVal(filteredCategorySuggestions[activeCategorySuggestion]);
     }
   };
 
@@ -122,25 +129,25 @@ const AddTodo: React.FC<AddTodoProps> = (props) => {
     setShowVendorSuggestions(indicator);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (categoryVal.trim() !== "") {
-      props.addNewTodoCallback(
+    if (categoryVal.trim() !== '') {
+      props.addNewTodoCallback({
         newTodoVal,
         categoryVal,
         costVal,
         vendorVal,
         linkVal,
-        noteVal
-      );
-      setNewTodoVal("");
-      setCategoryVal("");
-      setCostVal("");
-      setLinkVal("");
-      setVendorVal("");
-      setNoteVal("");
+        noteVal,
+      });
+      setNewTodoVal('');
+      setCategoryVal('');
+      setCostVal('');
+      setLinkVal('');
+      setVendorVal('');
+      setNoteVal('');
     } else {
-      alert("Please enter a category");
+      alert('Please enter a category');
     }
   };
 
@@ -176,7 +183,10 @@ const AddTodo: React.FC<AddTodoProps> = (props) => {
           activeSuggestion={activeCategorySuggestion}
           noSuggestionsAvailable={noCategorySuggestionsAvailable}
         />
-        <TodoInput newTodoVal={newTodoVal} handleTodoChange={handleTodoChange} />
+        <TodoInput
+          newTodoVal={newTodoVal}
+          handleTodoChange={handleTodoChange}
+        />
         <VendorInput
           vendorVal={vendorVal}
           handleVendorChange={handleVendorChange}

@@ -1,16 +1,15 @@
-import React from "react";
-import todoStyles from "@Styles/Todo.module.scss";
+import React from 'react';
+import todoStyles from '@Styles/Todo.module.scss';
+import { Checkbox } from '@mui/material';
 
 interface DisplayedTodoCheckboxProps {
   checked: boolean;
-  handleClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+  handleCheckboxUpdate: any;
 }
 
 const DisplayedTodoCheckbox: React.FC<DisplayedTodoCheckboxProps> = (props) => (
-  <input
-    type="checkbox"
-    className={todoStyles.todoCheckbox}
-    onClick={props.handleClick}
+  <Checkbox
+    onClick={() => props.handleCheckboxUpdate(!props.checked)}
     onChange={() => {}}
     checked={props.checked}
   />

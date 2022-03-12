@@ -1,24 +1,28 @@
-import React from "react";
-import axios from "axios";
-import { SingleTodo } from "./TodoTypes";
-import EditingTodo from "./EditingTodoComponents/EditingTodo";
-import DisplayedTodo from "./DisplayedTodoComponents/DisplayedTodo";
-import { UpdateEditingValues } from "./TodoUtils";
+import React from 'react';
+import axios from 'axios';
+import { SingleTodo } from './TodoTypes';
+import EditingTodo from './EditingTodoComponents/EditingTodo';
+import DisplayedTodo from './DisplayedTodoComponents/DisplayedTodo';
+import { UpdateEditingValues } from './TodoUtils';
+import { QueryClient, useMutation } from 'react-query';
 
 interface TodoProps {
-  updateAllTodosCallback: (updatedTodos: SingleTodo[]) => void;
-  updateTodoCallback: (updatedTodo: SingleTodo, index: number) => void;
+  queryClient: QueryClient;
   index: number;
   currCategory: string;
   todo: SingleTodo;
 }
 
-const Todo: React.FC<TodoProps> = (props) => {
+const Todo = (props: TodoProps) => {
   const [noteRevealed, setNoteRevealed] = React.useState(false);
   const [editing, setEditing] = React.useState(false);
   const [editingCost, setEditingCost] = React.useState(props.todo.cost);
-  const [editingCategoryVal, setEditingCategoryVal] = React.useState(props.todo.category);
-  const [editingTodoTitle, setEditingTodoTitle] = React.useState(props.todo.todoTitle);
+  const [editingCategoryVal, setEditingCategoryVal] = React.useState(
+    props.todo.category
+  );
+  const [editingTodoTitle, setEditingTodoTitle] = React.useState(
+    props.todo.todoTitle
+  );
   const [editingVendor, setEditingVendor] = React.useState(props.todo.vendor);
   const [editingNote, setEditingNote] = React.useState(props.todo.note);
 
@@ -72,49 +76,73 @@ const Todo: React.FC<TodoProps> = (props) => {
     setNoteRevealed((x) => !x);
   };
 
-  const handleClick = async (e: any) => {
-    e.preventDefault();
-    const { data } = await axios({
-      url: "/api/updateTodo",
-      method: "POST",
-      data: {
-        id: props.todo.id,
-        checked: e.target.checked,
-        category: editingCategoryVal,
-        todoTitle: editingTodoTitle,
-        cost: editingCost,
-        vendor: editingVendor,
-        note: editingNote
-      }
-    });
-    props.updateTodoCallback(data, props.todo.id);
-    setEditing(false);
-  };
+  const handleEditingSubmit = useMutation(
+    async (e: React.MouseEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      await axios({
+        url: '/api/updateTodo',
+        method: 'POST',
+        data: {
+          id: props.todo.id,
+          category: editingCategoryVal,
+          todoTitle: editingTodoTitle,
+          cost: editingCost,
+          vendor: editingVendor,
+          note: editingNote,
+        },
+      });
+      setEditing(false);
+    }
+  );
 
-  const handleDelete = async () => {
-    const { data } = await axios({
-      url: "/api/deleteTodo",
-      method: "DELETE",
-      data: { id: props.todo.id }
-    });
+  const handleCheckboxUpdate = useMutation(
+    async (newChecked: boolean) => {
+      await axios({
+        url: '/api/updateTodo',
+        method: 'POST',
+        data: {
+          id: props.todo.id,
+          checked: newChecked,
+        },
+      });
+      setEditing(false);
+    },
+    {
+      onSuccess: () => {
+        props.queryClient.invalidateQueries('todos');
+      },
+    }
+  );
 
-    props.updateAllTodosCallback(data);
-  };
+  const handleDelete = useMutation(
+    async () => {
+      await axios({
+        url: '/api/deleteTodo',
+        method: 'DELETE',
+        data: { id: props.todo.id },
+      });
+    },
+    {
+      onSuccess: () => {
+        props.queryClient.invalidateQueries('todos');
+      },
+    }
+  );
 
-  const handleEdit = () => {
+  const toggleEditing = () => {
     setEditing((x) => !x);
   };
 
   return editing ? (
     <EditingTodo
-      handleEdit={handleEdit}
-      handleDelete={handleDelete}
+      handleEdit={toggleEditing}
+      handleDelete={handleDelete.mutate}
       handleEditingCategoryVal={handleEditingCategoryVal}
       handleEditingTodoTitle={handleEditingTodoTitle}
       handleEditingCost={handleEditingCost}
       handleEditingVendor={handleEditingVendor}
       handleEditingNote={handleEditingNote}
-      handleClick={handleClick}
+      handleEditingSubmit={handleEditingSubmit.mutate}
       editingCategoryVal={editingCategoryVal}
       editingTodoTitle={editingTodoTitle}
       editingCost={editingCost}
@@ -125,10 +153,10 @@ const Todo: React.FC<TodoProps> = (props) => {
     />
   ) : (
     <DisplayedTodo
-      handleClick={handleClick}
-      handleEdit={handleEdit}
+      handleCheckboxUpdate={handleCheckboxUpdate.mutate}
+      handleEdit={toggleEditing}
       handleNoteRevealed={handleNoteRevealed}
-      handleDelete={handleDelete}
+      handleDelete={handleDelete.mutate}
       currCategory={props.currCategory}
       todo={props.todo}
       noteRevealed={noteRevealed}

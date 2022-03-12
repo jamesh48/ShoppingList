@@ -1,13 +1,14 @@
-import React from "react";
-import todoStyles from "@Styles/Todo.module.scss";
+import React from 'react';
+import { Link } from '@mui/material';
+import { DisplayTodoStyles } from './DisplayTodo.mui';
 interface DisplayedEditButtonProps {
   handleEdit: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
-const DisplayedEditButton: React.FC<DisplayedEditButtonProps> = (props) => {
+const DisplayedEditButton = (props: DisplayedEditButtonProps): JSX.Element => {
   return (
-    <a className={`${todoStyles.todoEditLink}`} onClick={props.handleEdit}>
+    <Link sx={{ ...DisplayTodoStyles.todoEditLink }} onClick={props.handleEdit}>
       Edit
-    </a>
+    </Link>
   );
 };
 
