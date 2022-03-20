@@ -4,14 +4,13 @@
   justify-content: center;
   align-items: center;
   width: 50%;
-  .todoHeader {
-    font-size: 2.5rem;
-    margin: 0;
-    line-height: 1.15;
-    text-align: center;
-    padding: 2.5% 0;
-    color: ivory;
-  }
+  // .todoHeader {
+  //   margin: 0;
+  //   line-height: 1;
+  //   text-align: center;
+  //   padding: 1.5% 0;
+  //   color: ivory;
+  // }
 
   .categoryTabContainer {
     display: flex;
@@ -146,7 +145,7 @@
   }
   .addNote {
     width: 100%;
-    height: 7.5rem;
+    height: 5rem;
     background-color: ivory;
     outline: none;
     text-align: center;

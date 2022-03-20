@@ -1,23 +1,38 @@
-import React from "react";
-import todoStyles from "@Styles/Todo.module.scss";
-import { VendorInputProps } from "../AddTodoTypes";
+import React from 'react';
+import todoStyles from '@Styles/Todo.module.scss';
+import { VendorInputProps } from '../AddTodoTypes';
+import { Autocomplete, TextField } from '@mui/material';
 
-const VendorInput: React.FC<VendorInputProps> = (props) => {
-  return (
-    <input
-      onFocus={() => props.handleSetSuggestions(true)}
-      onBlur={(e) => {
-        if (e.relatedTarget || props.noSuggestionsAvailable.current) {
-          props.handleSetSuggestions(false);
-        }
-      }}
-      className={todoStyles.addTodo}
-      placeholder="Vendor"
-      type="text"
-      value={props.vendorVal}
-      onKeyDown={props.handleKeyDown}
-      onChange={props.handleVendorChange}
-    />
-  );
-};
+const VendorInput = (props: VendorInputProps): JSX.Element => (
+  <Autocomplete
+    options={props.vendorSuggestions}
+    popupIcon={null}
+    disableClearable={true}
+    className={todoStyles.addTodo}
+    size="small"
+    sx={{ flex: 1 }}
+    value={props.formik.values.vendor}
+    onChange={(_e, value) => props.formik.setFieldValue('vendor', value)}
+    isOptionEqualToValue={(option, value) => {
+      return option.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    }}
+    renderInput={(params) => {
+      return (
+        <TextField
+          {...params}
+          placeholder="Vendor"
+          name="vendor"
+          value={props.formik.values.vendor}
+          onChange={props.formik.handleChange}
+          sx={{
+            textAlign: 'center',
+            outline: 'none',
+            backgroundColor: '#FFF',
+          }}
+        ></TextField>
+      );
+    }}
+  />
+);
+
 export default VendorInput;

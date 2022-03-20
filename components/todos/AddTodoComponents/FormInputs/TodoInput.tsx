@@ -1,19 +1,32 @@
-import React from "react";
-import todoStyles from "@Styles/Todo.module.scss";
+import React from 'react';
+import todoStyles from '@Styles/Todo.module.scss';
+import { TextField } from '@mui/material';
+import { FormikConfig, FormikProps } from 'formik';
 interface TodoInputProps {
-  newTodoVal: string;
-  handleTodoChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  formik: FormikProps<{
+    category: string;
+    vendor: string;
+    todo: string;
+    note: string;
+    cost: string;
+    link: string;
+  }>;
 }
-const TodoInput: React.FC<TodoInputProps> = (props) => {
-  return (
-    <input
-      className={todoStyles.addTodo}
-      type="text"
-      placeholder="Add Todo"
-      onChange={props.handleTodoChange}
-      value={props.newTodoVal}
-    />
-  );
-};
+const TodoInput: React.FC<TodoInputProps> = (props) => (
+  <TextField
+    className={todoStyles.addTodo}
+    sx={{
+      textAlign: 'center',
+      flex: 1,
+      outline: 'none',
+      backgroundColor: '#FFF',
+    }}
+    name="todo"
+    placeholder="Add Todo"
+    size="small"
+    onChange={props.formik.handleChange}
+    value={props.formik.values.todo}
+  />
+);
 
 export default TodoInput;

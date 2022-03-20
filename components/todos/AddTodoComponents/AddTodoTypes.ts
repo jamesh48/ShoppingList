@@ -1,3 +1,5 @@
+import { FormikProps } from 'formik';
+
 export interface AddTodoProps {
   addNewTodoCallback: ({
     newTodoVal,
@@ -25,31 +27,36 @@ export interface CostInputProps {
 }
 
 export interface VendorInputProps {
-  handleVendorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSetSuggestions: (indicator: boolean) => void;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  noSuggestionsAvailable: { current: any };
-  vendorVal: string;
+  vendorSuggestions: string[];
+  formik: FormikProps<{
+    category: string;
+    vendor: string;
+    todo: string;
+    note: string;
+    cost: string;
+    link: string;
+  }>;
 }
 
 export interface LinkInputProps {
-  linkVal: string;
-  handleLinkChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  formik: FormikProps<{
+    category: string;
+    vendor: string;
+    todo: string;
+    note: string;
+    cost: string;
+    link: string;
+  }>;
 }
 
 export interface CategoryInputProps {
-  handleCategoryChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSetSuggestions: (indicator: boolean) => void;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  noSuggestionsAvailable: { current: any };
-  categoryVal: string;
-}
-
-export interface SuggestionsListProps {
-  handleClick: (e: React.MouseEvent<HTMLLIElement>) => void;
-  showSuggestions: boolean;
-  itemValue: string;
-  filteredSuggestions: string[];
-  activeSuggestion: number;
-  noSuggestionsAvailable: { current: any };
+  categorySuggestions: string[];
+  formik: FormikProps<{
+    category: string;
+    vendor: string;
+    todo: string;
+    note: string;
+    cost: string;
+    link: string;
+  }>;
 }

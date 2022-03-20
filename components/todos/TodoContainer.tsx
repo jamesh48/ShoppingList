@@ -6,13 +6,8 @@ import { SingleTodo } from './TodoTypes';
 import axios from 'axios';
 import CategoryTab from './CategoryTab';
 import RunningTotal from 'components/RunningTotal/RunningTotal';
-import {
-  Mutation,
-  MutationFunction,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { Box, Typography } from '@mui/material';
 
 const TodoContainer = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -98,7 +93,11 @@ const TodoContainer = (): JSX.Element => {
   };
 
   if (isLoading) {
-    return <div>Is loading....</div>;
+    return (
+      <Box>
+        <Typography sx={{ color: 'ivory' }}>Loading....</Typography>
+      </Box>
+    );
   }
 
   const calculateRunningTotal = todos?.reduce<{ cost: string }[]>(
@@ -113,7 +112,6 @@ const TodoContainer = (): JSX.Element => {
 
   return (
     <div className={todoStyles.parentContainer}>
-      <h1 className={todoStyles.todoHeader}>Shopping List</h1>
       <div className={todoStyles.categoryTabContainer}>
         {categories.map((category, index) => {
           return (
